@@ -220,8 +220,6 @@ export default function Dashboard() {
                   height="auto"
                   aspectRatio={1.8}
                   eventDisplay="block"
-                  windowResize={true}
-                  handleWindowResize={true}
                 />
               </div>
             </div>
