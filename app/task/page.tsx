@@ -245,10 +245,14 @@ export default function Task() {
       // Artificial delay to show skeleton for 5 seconds
       await new Promise(resolve => setTimeout(resolve, 5000));
       
+      // Deduplicate todos based on _id
+      const existingIds = new Set(append ? todos.map(t => t._id) : []);
+      const newTodos = normalizedTodos.filter(todo => !existingIds.has(todo._id));
+      
       if (append) {
-        setTodos(prev => [...prev, ...normalizedTodos]);
+        setTodos(prev => [...prev, ...newTodos]);
       } else {
-        setTodos(normalizedTodos);
+        setTodos(newTodos);
       }
       
       setHasMore(data.pagination?.hasMore ?? normalizedTodos.length === limit);

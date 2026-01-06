@@ -133,7 +133,13 @@
 }
 
 .shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  background: linear-gradient(90deg, transparent, oklch(0.868 0.022 264.531), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2.5s infinite;
+}
+
+.dark .shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
   background-size: 200% 100%;
   animation: shimmer 2.5s infinite;
 }
