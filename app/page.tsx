@@ -43,7 +43,7 @@ export default function Dashboard() {
     try {
       const res = await fetch('/api/todos');
       const data = await res.json();
-      const todoList = Array.isArray(data) ? data : [];
+      const todoList = data.todos || (Array.isArray(data) ? data : []);
       setTodos(todoList);
       
       const events: CalendarEvent[] = todoList.map((todo: Todo) => {
@@ -196,30 +196,34 @@ export default function Dashboard() {
             </div>
           )}
         </div>
-        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-6 border border-slate-200 dark:border-slate-700">
-          <h2 className="text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-200">Task Calendar</h2>
+        <div className="hidden lg:block bg-white dark:bg-slate-800 rounded-xl shadow-lg p-4 md:p-6 border border-slate-200 dark:border-slate-700">
+          <h2 className="text-lg md:text-2xl font-semibold mb-4 text-slate-800 dark:text-slate-200">Task Calendar</h2>
           {isLoading ? (
             <Skeleton className="h-96 w-full" />
           ) : (
-            <div className="task-calendar">
-              <FullCalendar
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                initialView="dayGridMonth"
-                headerToolbar={{
-                  left: 'prev,next today',
-                  center: 'title',
-                  right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                }}
-                events={calendarEvents}
-                eventContent={(eventInfo) => (
-                  <div className="text-xs px-1 py-0.5 overflow-hidden text-ellipsis whitespace-nowrap">
-                    {eventInfo.event.title}
-                  </div>
-                )}
-                height="auto"
-                aspectRatio={1.5}
-                eventDisplay="block"
-              />
+            <div className="task-calendar overflow-x-auto">
+              <div className="min-w-full calendar-container">
+                <FullCalendar
+                  plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                  initialView="dayGridMonth"
+                  headerToolbar={{
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                  }}
+                  events={calendarEvents}
+                  eventContent={(eventInfo) => (
+                    <div className="text-xs px-1 py-0.5 overflow-hidden text-ellipsis whitespace-nowrap">
+                      {eventInfo.event.title}
+                    </div>
+                  )}
+                  height="auto"
+                  aspectRatio={1.8}
+                  eventDisplay="block"
+                  windowResize={true}
+                  handleWindowResize={true}
+                />
+              </div>
             </div>
           )}
         </div>
